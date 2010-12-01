@@ -1,0 +1,12 @@
+{application, temp_app,
+ [
+  {description, "Riak Demo"},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { temp_app_app, []}},
+  {env, []}
+ ]}.
