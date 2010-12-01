@@ -43,7 +43,14 @@ populate() ->
          #account{balance = 10000}).
 
 relations1() ->
-    ok.
+    {ok, Client} = riak:local_client(),
+    {ok, Obj} = Client:get(<<"account_details">>, <<"Alice">>,1),
+    Meta = riak_object:get_metadata(Obj),
+    Links = dict:fetch(<<"Links">>, Meta),
+    {value, {{SecretBucket, SecretKey},_}} = lists:keysearch(<<"secret">>, 2, Links),
+    {ok, Linked} = Client:get(SecretBucket, SecretKey, 1),
+    io:format("~p~n linked to~n ~p~n",[riak_object:get_value(Obj), 
+                                   riak_object:get_value(Linked)]).
 
 relations2() ->
     {ok, C} = riak:local_client(),
