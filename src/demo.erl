@@ -92,12 +92,12 @@ get_balance(Doc, _KeyData, _Arg) ->
     [Data#account.balance].
 
 sum(ValueList, _Arg) ->
-    Fun = fun([X],Acc0) when is_integer(X) ->
+    Fun = fun(X,Acc0) when is_integer(X); is_float(X) ->
                   Acc0+X;
              (_,Acc0) ->
                   Acc0
           end,
-    [lists:foldl(Fun, 0, ValueList)].
+    [lists:foldl(Fun, 0, lists:flatten(ValueList))].
     
 
             
